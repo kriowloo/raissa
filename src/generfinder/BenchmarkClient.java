@@ -8,7 +8,8 @@ import java.io.BufferedReader;
 import java.net.URL;
 
 public class BenchmarkClient{
-    public static final String baseHost = "http://downloads.sourceforge.net/generfinder-benchmark/";
+    public static final String baseHost = "https://sourceforge.net/projects/generfinder-benchmark/files/";
+    public static final String hostSuffix = "/download";
     private static String[] datasetNames = {"training1", "validation", "training2", "test1", "test2low", "test2medium", "test2high1", "test2high2", "test2high3"};
     private static String[] resources = {"orfs", "groundtruth", "genomes"};
     private static String[] filenames = {"orfs.fasta", "groundtruth.csv", "genomes.csv"};
@@ -37,7 +38,8 @@ public class BenchmarkClient{
     }
 
     public static void download(String datasetName, String resource){
-        String curlString = "curl -L http://downloads.sourceforge.net/generfinder-benchmark/";
+	
+        String curlString = "curl -L " + baseHost;
         String[] fileNames = checkResource(datasetName, resource);
         if (fileNames == null){
             System.out.println("Resource and/or dataset not found. Please, check then and try again.");
@@ -45,7 +47,7 @@ public class BenchmarkClient{
         }
         for (String fileName : fileNames){
             try{
-                String url = curlString + datasetName + "/" + fileName;
+                String url = curlString + datasetName + "/" + fileName + hostSuffix;
                 String cmd = url;
                 FileOutputStream fileOutputStream = new FileOutputStream(fileName);
                 Process process = Runtime.getRuntime().exec(cmd);
